@@ -11,6 +11,7 @@ public class DatabaseAdapterTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         dba = new DatabaseAdapter(getContext());
         dba.open();
+        dba.deleteAllNames();
     }
 
     public void testInsertAndGetAllNames() {
@@ -29,5 +30,15 @@ public class DatabaseAdapterTest extends AndroidTestCase {
 
         dba.deleteName("Fred");
         assertEquals(count, dba.getAllNames().size());
+    }
+
+    public void testExists() {
+        assertFalse(dba.getAllNames().contains("Fred"));
+
+        dba.insertName("Fred");
+        assertTrue(dba.getAllNames().contains("Fred"));
+
+        dba.deleteName("Fred");
+        assertFalse(dba.getAllNames().contains("Fred"));
     }
 }
