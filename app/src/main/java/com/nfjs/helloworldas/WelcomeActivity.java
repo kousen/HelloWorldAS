@@ -8,18 +8,33 @@ import android.widget.TextView;
 
 
 public class WelcomeActivity extends Activity {
+    private TextView greetingText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         String name = getIntent().getStringExtra("name");
-        TextView greetingText = (TextView) findViewById(R.id.greeting_text);
+        greetingText = (TextView) findViewById(R.id.greeting_text);
         String format = getString(R.string.greeting);
         greetingText.setText(String.format(format, name));
     }
 
+    @SuppressWarnings("NullableProblems")
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("display", greetingText.getText().toString());
+    }
+
+    @SuppressWarnings("NullableProblems")
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        greetingText.setText(savedInstanceState.getString("display"));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
