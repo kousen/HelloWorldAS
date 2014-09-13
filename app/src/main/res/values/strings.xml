@@ -7,5 +7,7 @@
     <string name="name_hint">Please enter your name</string>
     <string name="hello_button_label">Say Hello</string>
     <string name="hi_button_label">Say Hi</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="greeting">Hello, %1$s!</string>
 
 </resources>
