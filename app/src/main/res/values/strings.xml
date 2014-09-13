@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HelloWorldAS</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="name_hint">Please enter your name</string>
+    <string name="hello_button_label">Say Hello</string>
+    <string name="hi_button_label">Say Hi</string>
+
+</resources>
