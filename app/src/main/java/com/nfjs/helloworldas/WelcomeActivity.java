@@ -1,6 +1,7 @@
 package com.nfjs.helloworldas;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import java.util.List;
 public class WelcomeActivity extends Activity {
     private TextView greetingText;
     private DatabaseAdapter adapter;
+    private ListView listView;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -33,16 +35,28 @@ public class WelcomeActivity extends Activity {
             adapter.insertName(name);
         }
 
-        List<String> names = adapter.getAllNames();
-        ListView listView = (ListView) findViewById(R.id.list_view);
+        listView = (ListView) findViewById(R.id.list_view);
+        new DisplayNamesTask().execute();
 
-        ArrayAdapter<String> arrayAdapter
-                = new ArrayAdapter<String>(
-                    this,
+    }
+
+    private class DisplayNamesTask extends AsyncTask<Void, Void, List<String>> {
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            return adapter.getAllNames();
+        }
+
+        @Override
+        protected void onPostExecute(List<String> names) {
+            super.onPostExecute(names);
+            ArrayAdapter<String> arrayAdapter
+                    = new ArrayAdapter<String>(
+                    WelcomeActivity.this,
                     android.R.layout.simple_list_item_1,
                     names);
 
-        listView.setAdapter(arrayAdapter);
+            listView.setAdapter(arrayAdapter);
+        }
     }
 
     @Override
