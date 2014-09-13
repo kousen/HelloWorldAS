@@ -15,6 +15,7 @@ public class WelcomeActivity extends Activity {
     private TextView greetingText;
     private DatabaseAdapter adapter;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
