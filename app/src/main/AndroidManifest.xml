@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:parentActivityName=".MyActivity"
             android:name="com.nfjs.helloworldas.WelcomeActivity"
             android:label="@string/title_activity_welcome" >
         </activity>

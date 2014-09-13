@@ -14,6 +14,7 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         String name = getIntent().getStringExtra("name");
         greetingText = (TextView) findViewById(R.id.greeting_text);
