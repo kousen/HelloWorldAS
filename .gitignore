@@ -5,15 +5,6 @@
 .DS_Store
 /build
 
-# Built application files
-*.apk
-
-# Files for the Dalvik VM
-*.dex
-
-# Java class files
-*.class
-
 # Generated files
 bin/
 gen/
