@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 
 public class WelcomeActivity extends Activity {
     private TextView greetingText;
+    private DatabaseAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +25,29 @@ public class WelcomeActivity extends Activity {
         greetingText = (TextView) findViewById(R.id.greeting_text);
         String format = getString(R.string.greeting);
         greetingText.setText(String.format(format, name));
+
+        adapter = new DatabaseAdapter(this);
+        adapter.open();
+        if (!adapter.exists(name)) {
+            adapter.insertName(name);
+        }
+
+        List<String> names = adapter.getAllNames();
+        ListView listView = (ListView) findViewById(R.id.list_view);
+
+        ArrayAdapter<String> arrayAdapter
+                = new ArrayAdapter<String>(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    names);
+
+        listView.setAdapter(arrayAdapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        adapter.close();
     }
 
     @SuppressWarnings("NullableProblems")
