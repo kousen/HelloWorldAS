@@ -24,7 +24,6 @@ public class MyActivity extends Activity {
         setContentView(R.layout.activity_my);
 
         Log.d(TAG, "onCreate");
-
         textView = (TextView) findViewById(R.id.text_view);
         editText = (EditText) findViewById(R.id.edit_text);
         Button helloButton = (Button) findViewById(R.id.hello_button);
