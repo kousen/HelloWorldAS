@@ -15,6 +15,20 @@ android {
         release {
         }
     }
+
+    productFlavors {
+        arrogant {
+
+        }
+
+        friendly {
+
+        }
+
+        obsequious {
+
+        }
+    }
 }
 
 dependencies {
