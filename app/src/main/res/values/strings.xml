@@ -9,5 +9,6 @@
     <string name="hi_button_label">Say Hi</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="greeting">Hello, %1$s!</string>
+    <string name="animal">Animal</string>
 
 </resources>
