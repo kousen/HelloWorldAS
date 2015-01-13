@@ -20,7 +20,15 @@ public class DatabaseAdapterTest extends AndroidTestCase {
         List<String> names = dba.getAllNames();
         assertTrue(names.contains("Fred"));
         assertTrue(names.contains("Barney"));
-        dba.deleteAllNames();
+    }
+
+    public void testExceptionForEmptyName() {
+        try {
+            dba.insertName("");
+            fail("Should never get here");
+        } catch(IllegalArgumentException e) {
+            assertEquals("Name must not be empty", e.getMessage());
+        }
     }
 
     public void testDeleteName() {

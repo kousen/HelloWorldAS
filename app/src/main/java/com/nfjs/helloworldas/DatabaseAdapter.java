@@ -32,7 +32,7 @@ public class DatabaseAdapter {
     }
 
     public List<String> getAllNames() {
-        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<String> names = new ArrayList<>();
         Cursor cursor = getAllEntries();
         if (cursor.moveToFirst()) {
             do {
@@ -51,6 +51,9 @@ public class DatabaseAdapter {
     }
 
     public long insertName(String name) {
+        if (name.length() == 0) {
+            throw new IllegalArgumentException("Name must not be empty");
+        }
         ContentValues values = new ContentValues();
         values.put("name", name);
         return database.insert("names", null, values);
