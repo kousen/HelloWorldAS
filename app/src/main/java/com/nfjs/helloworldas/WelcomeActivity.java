@@ -2,8 +2,11 @@ package com.nfjs.helloworldas;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,16 +35,23 @@ public class WelcomeActivity extends Activity {
             adapter.insertName(name);
         }
 
-        List<String> names = adapter.getAllNames();
+        final List<String> names = adapter.getAllNames();
         ListView listView = (ListView) findViewById(R.id.list_view);
 
-        ArrayAdapter<String> arrayAdapter
-                = new ArrayAdapter<String>(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    names);
+        final ArrayAdapter<String> arrayAdapter
+                = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                names);
 
         listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("TAG", "Item at " + position + " clicked");
+            }
+        });
     }
 
     @Override
