@@ -3,8 +3,11 @@ package com.nfjs.helloworldas;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,6 +59,13 @@ public class WelcomeActivity extends Activity {
                     names);
 
             listView.setAdapter(arrayAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.d("TAG", "Item at " + position + " clicked");
+                }
+            });
         }
     }
 
