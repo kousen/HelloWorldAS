@@ -10,5 +10,7 @@
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="greeting">Hello, %1$s!</string>
     <string name="animal">Animal</string>
+    <string name="alert_button_label">Yeah, I know</string>
+    <string name="alert_title">This is an alert</string>
 
 </resources>

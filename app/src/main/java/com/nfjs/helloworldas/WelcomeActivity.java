@@ -1,7 +1,11 @@
 package com.nfjs.helloworldas;
 
 import android.app.Activity;
+<<<<<<< HEAD
 import android.os.AsyncTask;
+=======
+import android.app.DialogFragment;
+>>>>>>> 7.2-alert-dialog
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -65,10 +69,17 @@ public class WelcomeActivity extends Activity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.d("TAG", "Item at " + position + " clicked");
-                    greetingText.setText(
-                            String.format(getString(R.string.greeting),
-                                    parent.getItemAtPosition(position).toString()));
+                  Log.d("TAG", "Item at " + position + " clicked");
+                  String name = parent.getItemAtPosition(position).toString();
+                  greetingText.setText(
+                          String.format(getString(R.string.greeting),
+                                  name));
+
+                  DialogFragment fragment = new NameFragment();
+                  Bundle arguments = new Bundle();
+                  arguments.putString("name", name);
+                  fragment.setArguments(arguments);
+                  fragment.show(getFragmentManager(), "Nothing");
                 }
             });
         }
