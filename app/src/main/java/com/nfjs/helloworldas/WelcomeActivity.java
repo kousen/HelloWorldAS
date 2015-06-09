@@ -54,7 +54,7 @@ public class WelcomeActivity extends Activity {
                 Log.d("TAG", "Item at " + position + " clicked");
                 greetingText.setText(
                         String.format(getString(R.string.greeting),
-                                names.get(position)));
+                                parent.getItemAtPosition(position).toString()));
             }
         });
     }
