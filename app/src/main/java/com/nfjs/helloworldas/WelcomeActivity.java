@@ -1,11 +1,8 @@
 package com.nfjs.helloworldas;
 
 import android.app.Activity;
-<<<<<<< HEAD
 import android.os.AsyncTask;
-=======
 import android.app.DialogFragment;
->>>>>>> 7.2-alert-dialog
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
