@@ -1,6 +1,7 @@
 package com.nfjs.helloworldas;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -52,9 +53,16 @@ public class WelcomeActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("TAG", "Item at " + position + " clicked");
+                String name = parent.getItemAtPosition(position).toString();
                 greetingText.setText(
                         String.format(getString(R.string.greeting),
-                                parent.getItemAtPosition(position).toString()));
+                                name));
+
+                DialogFragment fragment = new NameFragment();
+                Bundle arguments = new Bundle();
+                arguments.putString("name", name);
+                fragment.setArguments(arguments);
+                fragment.show(getFragmentManager(), "Nothing");
             }
         });
     }
