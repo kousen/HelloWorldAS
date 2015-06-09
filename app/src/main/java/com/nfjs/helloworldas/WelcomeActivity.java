@@ -67,10 +67,11 @@ public class WelcomeActivity extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Log.d("TAG", "Item at " + position + " clicked");
                     greetingText.setText(
-                        String.format(getString(R.string.greeting),
-                                parent.getItemAtPosition(position).toString()));
-            }
-        });
+                            String.format(getString(R.string.greeting),
+                                    parent.getItemAtPosition(position).toString()));
+                }
+            });
+        }
     }
 
     @Override
