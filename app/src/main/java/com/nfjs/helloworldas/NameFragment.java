@@ -12,6 +12,7 @@ public class NameFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("This is an alert")
+                .setIcon(android.R.drawable.star_on)
                 .setMessage(String.format("You clicked on %s",
                         getArguments().getString("name")))
                 .setNeutralButton("Yeah, I know", null);
