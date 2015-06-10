@@ -11,5 +11,6 @@
     <string name="greeting">Hello, %1$s!</string>
     <string name="alert_button_label">Yeah, I know</string>
     <string name="alert_title">This is an alert</string>
+    <string name="toastFromNeutralButton">Seriously, I get it</string>
 
 </resources>
