@@ -3,6 +3,11 @@ package com.nfjs.helloworldas;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.app.DialogFragment;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,14 +17,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends Activity implements NameFragment.Rateable {
+    public static final int NOTIFICATION_ID = 314159;
+
     private TextView greetingText;
     private DatabaseAdapter adapter;
     private ListView listView;
+    private Map<String, Integer> ratings = new HashMap<>();
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -34,6 +45,7 @@ public class WelcomeActivity extends Activity {
         greetingText = (TextView) findViewById(R.id.greeting_text);
         String format = getString(R.string.greeting);
         greetingText.setText(String.format(format, name));
+        notifyUser(name);
 
         adapter = new DatabaseAdapter(this);
         adapter.open();
@@ -82,6 +94,38 @@ public class WelcomeActivity extends Activity {
         }
     }
 
+    private void notifyUser(String name) {
+        Intent intent = new Intent(this, MyActivity.class);
+        TaskStackBuilder tsb = TaskStackBuilder.create(this);
+        tsb.addParentStack(MyActivity.class);
+        tsb.addNextIntent(intent);
+        PendingIntent pendingIntent =
+                tsb.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("Greeted: " + name)
+                .setAutoCancel(true)
+                .setTicker("Greeted: " + name)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        NotificationManager manager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.notify(NOTIFICATION_ID, notification);
+    }
+
+    @Override
+    public void modifyRating(String name, int amount) {
+        if (ratings.get(name) != null) {
+            ratings.put(name, ratings.get(name) + amount);
+        } else {
+            ratings.put(name, amount);
+        }
+        Toast.makeText(this, String.format("%s has rating %d", name, ratings.get(name)),
+                Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -93,6 +137,12 @@ public class WelcomeActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("display", greetingText.getText().toString());
+
+        String[] names = ratings.keySet().toArray(new String[ratings.keySet().size()]);
+        outState.putStringArray("names", names);
+        for (String name : names) {
+            outState.putInt(name, ratings.get(name));
+        }
     }
 
     @SuppressWarnings("NullableProblems")
@@ -100,6 +150,10 @@ public class WelcomeActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         greetingText.setText(savedInstanceState.getString("display"));
+        String[] names = savedInstanceState.getStringArray("names");
+        for (String name : names) {
+            ratings.put(name, savedInstanceState.getInt(name));
+        }
     }
 
     @Override
