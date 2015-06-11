@@ -2,6 +2,11 @@ package com.nfjs.helloworldas;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +24,8 @@ import java.util.Map;
 
 
 public class WelcomeActivity extends Activity implements NameFragment.Rateable {
+    public static final int NOTIFICATION_ID = 314159;
+
     private TextView greetingText;
     private DatabaseAdapter adapter;
     private Map<String, Integer> ratings = new HashMap<>();
@@ -35,6 +42,7 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
         greetingText = (TextView) findViewById(R.id.greeting_text);
         String format = getString(R.string.greeting);
         greetingText.setText(String.format(format, name));
+        notifyUser(name);
 
         adapter = new DatabaseAdapter(this);
         adapter.open();
@@ -69,6 +77,27 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
                 fragment.show(getFragmentManager(), "Nothing");
             }
         });
+    }
+
+    private void notifyUser(String name) {
+        Intent intent = new Intent(this, MyActivity.class);
+        TaskStackBuilder tsb = TaskStackBuilder.create(this);
+        tsb.addParentStack(MyActivity.class);
+        tsb.addNextIntent(intent);
+        PendingIntent pendingIntent =
+                tsb.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("Greeted: " + name)
+                .setAutoCancel(true)
+                .setTicker("Greeted: " + name)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        NotificationManager manager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.notify(NOTIFICATION_ID, notification);
     }
 
     @Override
