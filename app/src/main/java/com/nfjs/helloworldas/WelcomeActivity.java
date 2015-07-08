@@ -1,14 +1,20 @@
 package com.nfjs.helloworldas;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.oreilly.icndb.JokeFinder;
+
 
 public class WelcomeActivity extends Activity {
     private TextView greetingText;
+    private TextView jokeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,22 +26,15 @@ public class WelcomeActivity extends Activity {
 
         String name = getIntent().getStringExtra("name");
         greetingText = (TextView) findViewById(R.id.greeting_text);
+        jokeText = (TextView) findViewById(R.id.joke_text);
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        new JokeFinder().getJoke(jokeText,
+                prefs.getString("first", "Hans"),
+                prefs.getString("last", "Dockter"));
+
         String format = getString(R.string.greeting);
         greetingText.setText(String.format(format, name));
-    }
-
-    @SuppressWarnings("NullableProblems")
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("display", greetingText.getText().toString());
-    }
-
-    @SuppressWarnings("NullableProblems")
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        greetingText.setText(savedInstanceState.getString("display"));
     }
 
     @Override
@@ -53,10 +52,19 @@ public class WelcomeActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_joke:
+                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                new JokeFinder().getJoke(jokeText,
+                        prefs.getString("first", "Hans"),
+                        prefs.getString("last", "Dockter"));
+                return true;
+            case R.id.preferences:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

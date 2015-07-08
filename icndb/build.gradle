@@ -1,17 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "21.1.2"
-
-    packagingOptions {
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'LICENSE.txt'
-    }
+    buildToolsVersion "23.0.0 rc2"
 
     defaultConfig {
-        applicationId "com.nfjs.helloworldas"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
@@ -27,5 +20,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':icndb')
+    compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
+    compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
+    compile 'com.google.code.gson:gson:2.3.1'
 }
