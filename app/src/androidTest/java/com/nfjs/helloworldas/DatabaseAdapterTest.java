@@ -30,4 +30,10 @@ public class DatabaseAdapterTest extends AndroidTestCase {
         dba.deleteName("Fred");
         assertEquals(count, dba.getAllNames().size());
     }
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        dba.close();
+    }
 }
