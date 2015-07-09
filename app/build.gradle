@@ -18,15 +18,15 @@ android {
 
     productFlavors {
         arrogant {
-
+            applicationId "com.nfjs.helloworldas.arro"
         }
 
         friendly {
-
+            applicationId "com.nfjs.helloworldas.frnd"
         }
 
         obsequious {
-
+            applicationId "com.nfjs.helloworldas.obsq"
         }
     }
 }
