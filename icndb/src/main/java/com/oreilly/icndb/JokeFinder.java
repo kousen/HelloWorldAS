@@ -11,7 +11,6 @@ public class JokeFinder {
             "limitTo=[nerdy]&firstName={first}&lastName={last}";
 
     private RestTemplate template = new RestTemplate();
-    private AsyncTask<String, Void, String> task;
     private TextView textView;
 
     public void getJoke(TextView textView, String first, String last) {
@@ -19,7 +18,7 @@ public class JokeFinder {
         if (template.getMessageConverters().size() == 0) {
             template.getMessageConverters().add(new GsonHttpMessageConverter());
         }
-        task = new JokeTask().execute(first, last);
+        new JokeTask().execute(first, last);
     }
 
     private class JokeTask extends AsyncTask<String, Void, String> {
