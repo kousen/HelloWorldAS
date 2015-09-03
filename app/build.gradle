@@ -4,12 +4,6 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
 
-    packagingOptions {
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'LICENSE.txt'
-    }
-
     defaultConfig {
         applicationId "com.nfjs.helloworldas"
         minSdkVersion 16
@@ -17,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false

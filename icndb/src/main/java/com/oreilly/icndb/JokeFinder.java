@@ -13,11 +13,12 @@ public class JokeFinder {
     private RestTemplate template = new RestTemplate();
     private TextView textView;
 
+    public JokeFinder() {
+        template.getMessageConverters().add(new GsonHttpMessageConverter());
+    }
+
     public void getJoke(TextView textView, String first, String last) {
         this.textView = textView;
-        if (template.getMessageConverters().size() == 0) {
-            template.getMessageConverters().add(new GsonHttpMessageConverter());
-        }
         new JokeTask().execute(first, last);
     }
 
