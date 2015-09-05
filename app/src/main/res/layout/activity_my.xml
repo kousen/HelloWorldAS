@@ -29,6 +29,7 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/hi_button"
         android:text="@string/hi_button_label"
         android:onClick="sayHello"
         android:layout_width="wrap_content"
