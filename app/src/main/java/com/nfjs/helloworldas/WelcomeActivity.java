@@ -14,7 +14,6 @@ import java.util.List;
 
 public class WelcomeActivity extends Activity {
     private TextView greetingText;
-    private DatabaseAdapter adapter;
     private ListView listView;
 
     @SuppressWarnings("ConstantConditions")
@@ -29,21 +28,25 @@ public class WelcomeActivity extends Activity {
         String format = getString(R.string.greeting);
         greetingText.setText(String.format(format, name));
 
-        adapter = new DatabaseAdapter(this);
-        adapter.open();
-        if (!adapter.exists(name)) {
-            adapter.insertName(name);
-        }
-
         listView = (ListView) findViewById(R.id.list_view);
-        new DisplayNamesTask().execute();
+        new DisplayNamesTask().execute(name);
 
     }
 
-    private class DisplayNamesTask extends AsyncTask<Void, Void, List<String>> {
+    private class DisplayNamesTask extends AsyncTask<String, Void, List<String>> {
+
         @Override
-        protected List<String> doInBackground(Void... params) {
-            return adapter.getAllNames();
+        protected List<String> doInBackground(String... params) {
+            DatabaseAdapter adapter = new DatabaseAdapter(WelcomeActivity.this);
+
+            String name = params[0];
+            adapter.open();
+            if (!adapter.exists(name)) {
+                adapter.insertName(name);
+            }
+            List<String> names = adapter.getAllNames();
+            adapter.close();
+            return names;
         }
 
         @Override
@@ -62,7 +65,6 @@ public class WelcomeActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        adapter.close();
     }
 
     @SuppressWarnings("NullableProblems")
