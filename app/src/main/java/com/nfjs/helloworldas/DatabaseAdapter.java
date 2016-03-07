@@ -47,9 +47,9 @@ public class DatabaseAdapter {
         Cursor cursor = database.rawQuery(
                 "select name from names where name=?",
                 new String[]{ name });
-        boolean yes = cursor.getCount() >= 1;
+        boolean response = cursor.getCount() >= 1;
         cursor.close();
-        return yes;
+        return response;
     }
 
     public long insertName(String name) {

@@ -28,7 +28,6 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
     public static final int NOTIFICATION_ID = 314159;
 
     private TextView greetingText;
-    private DatabaseAdapter adapter;
     private ListView listView;
     private Map<String, Integer> ratings = new HashMap<>();
 
@@ -47,21 +46,25 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
         greetingText.setText(String.format(format, name));
         notifyUser(name);
 
-        adapter = new DatabaseAdapter(this);
-        adapter.open();
-        if (!adapter.exists(name)) {
-            adapter.insertName(name);
-        }
-
         listView = (ListView) findViewById(R.id.list_view);
-        new DisplayNamesTask().execute();
+        new DisplayNamesTask().execute(name);
 
     }
 
-    private class DisplayNamesTask extends AsyncTask<Void, Void, List<String>> {
+    private class DisplayNamesTask extends AsyncTask<String, Void, List<String>> {
+
         @Override
-        protected List<String> doInBackground(Void... params) {
-            return adapter.getAllNames();
+        protected List<String> doInBackground(String... params) {
+            DatabaseAdapter adapter = new DatabaseAdapter(WelcomeActivity.this);
+
+            String name = params[0];
+            adapter.open();
+            if (!adapter.exists(name)) {
+                adapter.insertName(name);
+            }
+            List<String> names = adapter.getAllNames();
+            adapter.close();
+            return names;
         }
 
         @Override
@@ -129,7 +132,6 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        adapter.close();
     }
 
     @SuppressWarnings("NullableProblems")
