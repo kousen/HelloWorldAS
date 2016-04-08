@@ -1,20 +1,37 @@
 package com.nfjs.helloworldas;
 
 import android.app.Activity;
+import android.os.AsyncTask;
+import android.app.DialogFragment;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends Activity implements NameFragment.Rateable {
+    public static final int NOTIFICATION_ID = 314159;
+
     private TextView greetingText;
-    private DatabaseAdapter adapter;
+    private ListView listView;
+    private Map<String, Integer> ratings = new HashMap<>();
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,29 +44,93 @@ public class WelcomeActivity extends Activity {
         greetingText = (TextView) findViewById(R.id.greeting_text);
         String format = getString(R.string.greeting);
         greetingText.setText(String.format(format, name));
+        notifyUser(name);
 
-        adapter = new DatabaseAdapter(this);
-        adapter.open();
-        if (!adapter.exists(name)) {
-            adapter.insertName(name);
+        listView = (ListView) findViewById(R.id.list_view);
+        new DisplayNamesTask().execute(name);
+
+    }
+
+    private class DisplayNamesTask extends AsyncTask<String, Void, List<String>> {
+
+        @Override
+        protected List<String> doInBackground(String... params) {
+            DatabaseAdapter adapter = new DatabaseAdapter(WelcomeActivity.this);
+
+            String name = params[0];
+            adapter.open();
+            if (!adapter.exists(name)) {
+                adapter.insertName(name);
+            }
+            List<String> names = adapter.getAllNames();
+            adapter.close();
+            return names;
         }
 
-        List<String> names = adapter.getAllNames();
-        ListView listView = (ListView) findViewById(R.id.list_view);
-
-        ArrayAdapter<String> arrayAdapter
-                = new ArrayAdapter<String>(
-                    this,
+        @Override
+        protected void onPostExecute(List<String> names) {
+            super.onPostExecute(names);
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                    WelcomeActivity.this,
                     android.R.layout.simple_list_item_1,
                     names);
 
-        listView.setAdapter(arrayAdapter);
+            listView.setAdapter(arrayAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                  Log.d("TAG", "Item at " + position + " clicked");
+                  String name = parent.getItemAtPosition(position).toString();
+                  greetingText.setText(
+                          String.format(getString(R.string.greeting),
+                                  name));
+
+                  DialogFragment fragment = new NameFragment();
+                  Bundle arguments = new Bundle();
+                  arguments.putString("name", name);
+                  fragment.setArguments(arguments);
+                  fragment.show(getFragmentManager(), "Nothing");
+                }
+            });
+        }
+    }
+
+    private void notifyUser(String name) {
+        Intent intent = new Intent(this, MyActivity.class);
+        TaskStackBuilder tsb = TaskStackBuilder.create(this);
+        tsb.addParentStack(MyActivity.class);
+        tsb.addNextIntent(intent);
+        PendingIntent pendingIntent =
+                tsb.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("Greeted: " + name)
+                .setAutoCancel(true)
+                .setTicker("Greeted: " + name)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        NotificationManager manager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.notify(NOTIFICATION_ID, notification);
+    }
+
+    @Override
+    public void modifyRating(String name, int amount) {
+        if (ratings.get(name) != null) {
+            ratings.put(name, ratings.get(name) + amount);
+        } else {
+            ratings.put(name, amount);
+        }
+        Toast.makeText(this, String.format("%s has rating %d", name, ratings.get(name)),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        adapter.close();
     }
 
     @SuppressWarnings("NullableProblems")
@@ -57,6 +138,12 @@ public class WelcomeActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("display", greetingText.getText().toString());
+
+        String[] names = ratings.keySet().toArray(new String[ratings.keySet().size()]);
+        outState.putStringArray("names", names);
+        for (String name : names) {
+            outState.putInt(name, ratings.get(name));
+        }
     }
 
     @SuppressWarnings("NullableProblems")
@@ -64,6 +151,10 @@ public class WelcomeActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         greetingText.setText(savedInstanceState.getString("display"));
+        String[] names = savedInstanceState.getStringArray("names");
+        for (String name : names) {
+            ratings.put(name, savedInstanceState.getInt(name));
+        }
     }
 
     @Override
