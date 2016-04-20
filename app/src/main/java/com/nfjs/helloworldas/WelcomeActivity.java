@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -78,7 +79,8 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
         } else {
             ratings.put(name, amount);
         }
-        Toast.makeText(this, String.format("%s has rating %d", name, ratings.get(name)),
+        Toast.makeText(this, String.format(Locale.getDefault(),
+                "%s has rating %d", name, ratings.get(name)),
                 Toast.LENGTH_SHORT).show();
     }
 
