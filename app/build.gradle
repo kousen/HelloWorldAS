@@ -21,6 +21,10 @@ android {
     }
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = 2.11
+}
+
 dependencies {
     compile 'com.android.support:support-annotations:23.3.0'
     androidTestCompile 'junit:junit:4.12'
