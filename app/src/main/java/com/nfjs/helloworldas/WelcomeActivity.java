@@ -31,7 +31,6 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
     private ListView listView;
     private Map<String, Integer> ratings = new HashMap<>();
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,7 +146,6 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
         }
     }
 
-    @SuppressWarnings("NullableProblems")
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
