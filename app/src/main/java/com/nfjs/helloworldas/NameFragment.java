@@ -1,26 +1,26 @@
 package com.nfjs.helloworldas;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Toast;
 
 public class NameFragment extends DialogFragment {
 
-    public static interface Rateable {
+    public interface Rateable {
         void modifyRating(String name, int amount);
     }
 
     private Rateable rater;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        rater = (Rateable) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        rater = (Rateable) context;
     }
 
     @Override
