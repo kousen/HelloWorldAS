@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -17,11 +19,17 @@ public class NameFragment extends DialogFragment {
 
     private Rateable rater;
 
-    // Still need this for API < 23
-    @Override
+    @Override @SuppressWarnings("deprecation")
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) return;
         rater = (Rateable) activity;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        rater = (Rateable) context;
     }
 
     @Override
