@@ -32,7 +32,7 @@ public class DatabaseAdapter {
     }
 
     public List<String> getAllNames() {
-        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<String> names = new ArrayList<>();
         Cursor cursor = getAllEntries();
         if (cursor.moveToFirst()) {
             do {
@@ -47,7 +47,9 @@ public class DatabaseAdapter {
         Cursor cursor = database.rawQuery(
                 "select name from names where name=?",
                 new String[]{ name });
-        return cursor.getCount() >= 1;
+        boolean result = cursor.getCount() >= 1;
+        cursor.close();
+        return result;
     }
 
     public long insertName(String name) {
