@@ -9,8 +9,10 @@ public class DatabaseAdapterTest extends AndroidTestCase {
 
     @Override
     protected void setUp() throws Exception {
+        super.setUp();
         dba = new DatabaseAdapter(getContext());
         dba.open();
+        dba.deleteAllNames();
     }
 
     public void testInsertAndGetAllNames() {
