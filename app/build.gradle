@@ -18,19 +18,22 @@ android {
         }
     }
 
+    flavorDimensions('attitude')
+
     productFlavors {
         arrogant {
-
+            dimension 'attitude'
         }
 
         friendly {
-
+            dimension 'attitude'
         }
 
         obsequious {
-
+            dimension 'attitude'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
