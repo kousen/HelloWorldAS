@@ -50,7 +50,7 @@ public class WelcomeActivity extends Activity {
         protected void onPostExecute(List<String> names) {
             super.onPostExecute(names);
             ArrayAdapter<String> arrayAdapter
-                    = new ArrayAdapter<String>(
+                    = new ArrayAdapter<>(
                     WelcomeActivity.this,
                     android.R.layout.simple_list_item_1,
                     names);

@@ -36,6 +36,38 @@ android {
     }
 }
 
+
+task printVariantNames() {
+    doLast {
+        android.applicationVariants.all { variant ->
+            println variant.name
+        }
+    }
+}
+task copyApks(type: Copy) {
+    dependsOn 'assembleDebug'
+    from("$buildDir/outputs/apk") {
+        exclude '**/*unsigned.apk', '**/*unaligned.apk'
+    }
+    into '../apks'
+}
+
+gradle.taskGraph.whenReady { graph ->
+    if (project.hasProperty('noLint')) {
+        graph.allTasks.findAll { it.name ==~ /lint.*/ }*.enabled = false
+    }
+}
+
+task installDebugFlavors() {
+    android.applicationVariants.all { v ->
+        if (v.name.endsWith('Debug')) {
+            String name = v.name.capitalize()
+            dependsOn "install$name"
+        }
+    }
+}
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-annotations:25.4.0'
