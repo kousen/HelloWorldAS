@@ -33,10 +33,10 @@ public class WelcomeActivity extends Activity {
         }
 
         List<String> names = adapter.getAllNames();
-        ListView listView = (ListView) findViewById(R.id.list_view);
+        ListView listView = findViewById(R.id.list_view);
 
         ArrayAdapter<String> arrayAdapter
-                = new ArrayAdapter<String>(
+                = new ArrayAdapter<>(
                     this,
                     android.R.layout.simple_list_item_1,
                     names);
