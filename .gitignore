@@ -13,6 +13,8 @@
 
 # Java class files
 *.class
+.idea/
+*.iml
 
 # Generated files
 bin/
