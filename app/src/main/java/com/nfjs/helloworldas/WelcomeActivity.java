@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,16 +34,12 @@ public class WelcomeActivity extends Activity {
             adapter.insertName(name);
         }
 
-        List<String> names = adapter.getAllNames();
+        ArrayList<User> currentUsers = adapter.getAllNames();
         ListView listView = findViewById(R.id.list_view);
 
-        ArrayAdapter<String> arrayAdapter
-                = new ArrayAdapter<>(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    names);
+        UserAdapter userAdapter = new UserAdapter(this, currentUsers);
 
-        listView.setAdapter(arrayAdapter);
+        listView.setAdapter(userAdapter);
     }
 
     @Override
