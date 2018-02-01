@@ -6,6 +6,7 @@
 /build
 .idea/
 *.iml
+/app/app.iml
 
 # Generated files
 bin/
