@@ -34,10 +34,10 @@ public class MyActivityLayoutTest
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         activity = getActivity();
 
-        textView = (TextView) activity.findViewById(R.id.text_view);
-        editText = (EditText) activity.findViewById(R.id.edit_text);
-        helloButton = (Button) activity.findViewById(R.id.hello_button);
-        hiButton = (Button) activity.findViewById(R.id.hi_button);
+        textView = activity.findViewById(R.id.text_view);
+        editText = activity.findViewById(R.id.edit_text);
+        helloButton = activity.findViewById(R.id.hello_button);
+        hiButton = activity.findViewById(R.id.hi_button);
     }
 
     @After
