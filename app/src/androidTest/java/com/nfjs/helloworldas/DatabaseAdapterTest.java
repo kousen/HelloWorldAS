@@ -1,20 +1,31 @@
 package com.nfjs.helloworldas;
 
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
-public class DatabaseAdapterTest extends AndroidTestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class DatabaseAdapterTest {
     private DatabaseAdapter dba;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        dba = new DatabaseAdapter(getContext());
+    @Before
+    public void setUp() throws Exception {
+        dba = new DatabaseAdapter(InstrumentationRegistry.getTargetContext());
         dba.open();
         dba.deleteAllNames();
     }
 
+    @Test
     public void testInsertAndGetAllNames() {
         dba.insertName("Fred");
         dba.insertName("Barney");
@@ -23,6 +34,7 @@ public class DatabaseAdapterTest extends AndroidTestCase {
         assertTrue(names.contains("Barney"));
     }
 
+    @Test
     public void testExceptionForEmptyName() {
         try {
             dba.insertName("");
@@ -32,6 +44,7 @@ public class DatabaseAdapterTest extends AndroidTestCase {
         }
     }
 
+    @Test
     public void testDeleteName() {
         int count = dba.getAllNames().size();
         dba.insertName("Fred");
@@ -41,6 +54,7 @@ public class DatabaseAdapterTest extends AndroidTestCase {
         assertEquals(count, dba.getAllNames().size());
     }
 
+    @Test
     public void testExists() {
         assertFalse(dba.getAllNames().contains("Fred"));
 

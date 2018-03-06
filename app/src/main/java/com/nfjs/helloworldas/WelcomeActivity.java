@@ -1,6 +1,7 @@
 package com.nfjs.helloworldas;
 
 import android.app.Activity;
+import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.app.DialogFragment;
 import android.app.Notification;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,15 +56,24 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
 
         @Override
         protected List<String> doInBackground(String... params) {
-            DatabaseAdapter adapter = new DatabaseAdapter(WelcomeActivity.this);
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "users.db").build();
 
             String name = params[0];
-            adapter.open();
-            if (!adapter.exists(name)) {
-                adapter.insertName(name);
+
+            UserDAO userDao = db.getUserDao();
+            if (!userDao.exists(name)) {
+                userDao.insertUsers(new User(name));
             }
-            List<String> names = adapter.getAllNames();
-            adapter.close();
+
+            List<User> users = userDao.getAllUsers();
+            List<String> names = new ArrayList<>();
+            for (User user : users) {
+                names.add(user.getName());
+            }
+
+            db.close();
+
             return names;
         }
 
