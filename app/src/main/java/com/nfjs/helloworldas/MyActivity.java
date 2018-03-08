@@ -25,9 +25,9 @@ public class MyActivity extends Activity {
 
         Log.d(TAG, "onCreate");
 
-        textView = (TextView) findViewById(R.id.text_view);
-        editText = (EditText) findViewById(R.id.edit_text);
-        Button helloButton = (Button) findViewById(R.id.hello_button);
+        textView = findViewById(R.id.text_view);
+        editText = findViewById(R.id.edit_text);
+        Button helloButton = findViewById(R.id.hello_button);
         helloButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,28 +79,6 @@ public class MyActivity extends Activity {
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }
