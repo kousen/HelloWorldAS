@@ -28,8 +28,14 @@ public class DatabaseAdapter {
     private Cursor getAllEntries() {
         String[] columns = new String[1];
         columns[0] = "name";
-        return database.query("names", columns, null, null,
-                null, null, null);
+        return database.query(
+                "names",
+                columns,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
     public List<String> getAllNames() {
