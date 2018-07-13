@@ -42,12 +42,12 @@ public class WelcomeActivity extends Activity implements NameFragment.Rateable {
         }
 
         String name = getIntent().getStringExtra("name");
-        greetingText = (TextView) findViewById(R.id.greeting_text);
+        greetingText = findViewById(R.id.greeting_text);
         String format = getString(R.string.greeting);
         greetingText.setText(String.format(format, name));
         notifyUser(name);
 
-        listView = (ListView) findViewById(R.id.list_view);
+        listView = findViewById(R.id.list_view);
         new DisplayNamesTask().execute(name);
 
     }
