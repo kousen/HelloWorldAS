@@ -29,13 +29,13 @@ public class DatabaseAdapter {
         String[] columns = new String[1];
         columns[0] = "name";
         return database.query(
-                "names",
-                columns,
-                null,
-                null,
-                null,
-                null,
-                null);
+                "names", // table name
+                columns, // column names in a string array
+                null,    // where clause with ?s
+                null,    // args for where clause
+                null,    // group by
+                null,    // having
+                null);   // order by
     }
 
     public List<String> getAllNames() {
