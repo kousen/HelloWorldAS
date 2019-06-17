@@ -1,7 +1,7 @@
 package com.nfjs.helloworldas;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class DatabaseAdapterTest {
 
     @Before
     public void setUp() throws Exception {
-        dba = new DatabaseAdapter(InstrumentationRegistry.getTargetContext());
+        dba = new DatabaseAdapter(ApplicationProvider.getApplicationContext());
         dba.open();
         dba.deleteAllNames();
     }

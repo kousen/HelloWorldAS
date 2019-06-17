@@ -1,7 +1,7 @@
 package com.nfjs.helloworldas;
 
 import android.app.Activity;
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.os.AsyncTask;
 import android.app.DialogFragment;
 import android.app.Notification;
