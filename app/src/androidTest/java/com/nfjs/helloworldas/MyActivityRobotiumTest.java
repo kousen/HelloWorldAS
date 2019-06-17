@@ -1,20 +1,22 @@
 package com.nfjs.helloworldas;
 
-import android.test.ActivityInstrumentationTestCase2;
+import androidx.test.rule.ActivityTestRule;
 
 import com.robotium.solo.Solo;
 
-public class MyActivityRobotiumTest
-    extends ActivityInstrumentationTestCase2<MyActivity> {
+import org.junit.Rule;
+
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+
+public class MyActivityRobotiumTest {
+
+    @Rule
+    public ActivityTestRule<MyActivity> rule = new ActivityTestRule<>(MyActivity.class);
 
     private Solo solo;
 
-    public MyActivityRobotiumTest() {
-        super(MyActivity.class);
-    }
-
     public void setUp() {
-        solo = new Solo(getInstrumentation(), getActivity());
+        solo = new Solo(getInstrumentation(), rule.getActivity());
     }
 
     public void testMyActivity() {
@@ -23,7 +25,7 @@ public class MyActivityRobotiumTest
 
     public void testSayHello() {
         solo.enterText(0, "Dolly");
-        solo.clickOnButton(getActivity().getString(R.string.hello_button_label));
+        solo.clickOnButton(rule.getActivity().getString(R.string.hello_button_label));
         solo.assertCurrentActivity("WelcomeActivity", WelcomeActivity.class);
         solo.searchText("Hello, Dolly!");
     }

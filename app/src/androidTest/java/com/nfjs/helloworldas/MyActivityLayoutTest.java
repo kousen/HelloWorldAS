@@ -1,22 +1,24 @@
 package com.nfjs.helloworldas;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.MediumTest;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.junit.After;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.MediumTest;
+import androidx.test.rule.ActivityTestRule;
+
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class MyActivityLayoutTest
-        extends ActivityInstrumentationTestCase2<MyActivity> {
+public class MyActivityLayoutTest {
 
     private MyActivity activity;
     private TextView textView;
@@ -24,25 +26,17 @@ public class MyActivityLayoutTest
     private Button helloButton;
     private Button hiButton;
 
-    public MyActivityLayoutTest() {
-        super(MyActivity.class);
-    }
+    @Rule
+    public ActivityTestRule<MyActivity> rule = new ActivityTestRule<>(MyActivity.class);
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
-        activity = getActivity();
+        activity = rule.getActivity();
 
         textView = activity.findViewById(R.id.text_view);
         editText = activity.findViewById(R.id.edit_text);
         helloButton = activity.findViewById(R.id.hello_button);
         hiButton = activity.findViewById(R.id.hi_button);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     @Test
