@@ -57,7 +57,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.room:room-runtime:2.2.1'
-    annotationProcessor 'androidx.room:room-compiler:2.2.1'
+    annotationProcessor 'androidx.room:room-compiler:2.2.3'
     testImplementation 'androidx.room:room-testing:2.2.1'
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:core:1.2.0'
